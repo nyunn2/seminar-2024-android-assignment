@@ -3,7 +3,8 @@ package com.wafflestudio.waffleseminar2024
 import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
+//import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -26,21 +27,21 @@ data class Movie(
 ) : Parcelable
 
 data class Company(
-    val id: Int,
+    val id: Int?,
     val logoPath: String?,
-    val name: String,
+    val name: String?,
     val originCountry: String?
 )
 
 data class Country(
-    val iso: String,
-    val name: String
+    val iso: String?,
+    val name: String?
 )
 
 data class Language(
-    val iso_639_1: String,
-    val name: String,
-    val english_name: String
+    val iso_639_1: String?,
+    val name: String?,
+    val english_name: String?
 )
 
 
@@ -133,6 +134,7 @@ class Genre(
     val id: Int,
     val name: String,
 ) : Parcelable
+
 
 fun parseGenreList(jsonString: String): List<Genre> {
     return Json.decodeFromString(jsonString)

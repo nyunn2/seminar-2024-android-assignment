@@ -1,5 +1,6 @@
 package com.wafflestudio.waffleseminar2024.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,76 +8,56 @@ import androidx.lifecycle.viewModelScope
 import com.wafflestudio.waffleseminar2024.Movie
 import com.wafflestudio.waffleseminar2024.data.database.MovieRepository
 import com.wafflestudio.waffleseminar2024.data.database.MyEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
-    private val _movie = MutableLiveData<MyEntity>()
-    val movie: LiveData<MyEntity> get() = _movie
+@HiltViewModel
+class MovieViewModel @Inject constructor(
+    private val repository: MovieRepository
+) : ViewModel() {
 
-    private val _searchResults = MutableLiveData<List<Movie>>()
-    val searchResults: LiveData<List<Movie>> get() = _searchResults
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>> get() = _movies
+
+    private val _movieDetail = MutableLiveData<MyEntity>()
+    val movieDetail: LiveData<MyEntity> get() = _movieDetail
 
     fun fetchMovieDetails(id: Int) {
         viewModelScope.launch {
-            // IO 스레드에서 데이터베이스 작업 수행
-            val movieDetails = withContext(Dispatchers.IO) {
-                repository.getMovieById(id)  // 데이터베이스에서 영화 정보 가져오기
+            try {
+                Log.d("MovieViewModel", "Fetching movie details for ID: $id")
+                val movieDetail = repository.getMovieById(id)
+                _movieDetail.postValue(movieDetail)
+                Log.d("MovieViewModel", "Fetched movie details: $movieDetail")
+            } catch (e: Exception) {
+                Log.e("MovieViewModel", "Error fetching movie details for ID: $id", e)
+                e.printStackTrace()
             }
-            _movie.value = movieDetails
         }
     }
 
-    fun titleQuery(titleWord: String) {
+    fun searchMovies(query: String) {
         viewModelScope.launch {
-            // IO 스레드에서 데이터베이스 작업 수행
-            val movies = withContext(Dispatchers.IO) {
-                repository.getMoviesByTitle(titleWord).map { entity ->
-                    Movie(
-                        id = entity.id ?: 0,
-                        title = entity.title ?: "",
-                        original_title = entity.original_title ?: "",
-                        backdrop_path = entity.backdrop_path ?: "",
-                        overview = entity.overview ?: "",
-                        poster_path = entity.poster_path ?: "",
-                        release_date = entity.release_date ?: "",
-                        vote_average = entity.vote_average ?: 0.0,
-                        runtime = entity.runtime,
-                        status = entity.status ?: "",
-                        genres = entity.genres,
-                        budget = entity.budget ?: 0,
-                        revenue = entity.revenue ?: 0
-                    )
-                }
+            try {
+                val movies = repository.getMoviesByTitle(query)
+                _movies.postValue(movies)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            _searchResults.value = movies  // 검색 결과 업데이트
         }
     }
 
-    fun genreQuery(genreId: Int) {
+    fun getMoviesByGenre(genreId: Int) {
         viewModelScope.launch {
-            // IO 스레드에서 데이터베이스 작업 수행
-            val movies = withContext(Dispatchers.IO) {
-                repository.getMoviesByGenre(genreId).map { entity ->
-                    Movie(
-                        id = entity.id ?: 0,
-                        title = entity.title ?: "",
-                        original_title = entity.original_title ?: "",
-                        backdrop_path = entity.backdrop_path ?: "",
-                        overview = entity.overview ?: "",
-                        poster_path = entity.poster_path ?: "",
-                        release_date = entity.release_date ?: "",
-                        vote_average = entity.vote_average ?: 0.0,
-                        runtime = entity.runtime,
-                        status = entity.status ?: "",
-                        genres = entity.genres,
-                        budget = entity.budget ?: 0,
-                        revenue = entity.revenue ?: 0
-                    )
-                }
+            try {
+                val movies = repository.getMoviesByGenre(genreId)
+                _movies.postValue(movies)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            _searchResults.value = movies  // 검색 결과 업데이트
         }
     }
 }

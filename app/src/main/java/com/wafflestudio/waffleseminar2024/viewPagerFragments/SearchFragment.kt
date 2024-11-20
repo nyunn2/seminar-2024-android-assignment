@@ -9,6 +9,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.wafflestudio.waffleseminar2024.R
 import com.wafflestudio.waffleseminar2024.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null

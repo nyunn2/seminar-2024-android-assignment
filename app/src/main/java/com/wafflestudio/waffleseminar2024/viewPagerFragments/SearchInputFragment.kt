@@ -22,10 +22,12 @@ import com.wafflestudio.waffleseminar2024.Movie
 import com.wafflestudio.waffleseminar2024.R
 import com.wafflestudio.waffleseminar2024.databinding.FragmentSearchinputBinding
 import com.wafflestudio.waffleseminar2024.adapter.searchTermRecyclerViewAdapter
+import com.wafflestudio.waffleseminar2024.data.database.MyEntity
 import com.wafflestudio.waffleseminar2024.viewmodel.MovieViewModel
-import com.wafflestudio.waffleseminar2024.viewmodel.MovieViewModelFactory
 import com.wafflestudio.waffleseminar2024.viewmodel.SearchInputViewmodel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchInputFragment: Fragment() {
     private lateinit var navController: NavController
 
@@ -35,7 +37,7 @@ class SearchInputFragment: Fragment() {
     private lateinit var searchTermRecyclerView: RecyclerView
 
     private val searchInputViewModel: SearchInputViewmodel by activityViewModels()
-    private val movieViewModel: MovieViewModel by viewModels { MovieViewModelFactory(requireContext()) }
+    private val movieViewModel: MovieViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +61,7 @@ class SearchInputFragment: Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val searchTerm = searchEditText.text.toString()
                 searchInputViewModel.saveSearchTerm(searchTerm)
-                movieViewModel.titleQuery(searchTerm)  // 검색 쿼리 실행
+                movieViewModel.searchMovies(searchTerm)  // 검색 쿼리 실행
                 hideKeyboard(v)
                 true
             } else {
@@ -73,7 +75,7 @@ class SearchInputFragment: Fragment() {
         searchButton.setOnClickListener {
             val searchTerm = searchEditText.text.toString()
             searchInputViewModel.saveSearchTerm(searchTerm)
-            movieViewModel.titleQuery(searchTerm)
+            movieViewModel.searchMovies(searchTerm)
         }
 
         backButton.setOnClickListener {
@@ -81,7 +83,7 @@ class SearchInputFragment: Fragment() {
         }
 
         // 검색 결과 LiveData 관찰
-        movieViewModel.searchResults.observe(viewLifecycleOwner) { data ->
+        movieViewModel.movies.observe(viewLifecycleOwner) { data ->
             showResult(data)
         }
     }

@@ -8,6 +8,7 @@ import com.wafflestudio.waffleseminar2024.Country
 import com.wafflestudio.waffleseminar2024.Genre
 import com.wafflestudio.waffleseminar2024.Language
 
+/*
 class MyConverters {
     private val gson = Gson()
 
@@ -93,3 +94,5 @@ class MyConverters {
         return gson.fromJson(jsonFormValue, listType)
     }
 }
+
+ */

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.wafflestudio.waffleseminar2024.Movie
-
+/*
 @Dao
 interface MyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -23,3 +23,5 @@ interface MyDao {
     @Query("SELECT * FROM example_table2 WHERE genres LIKE '%' || :genreId || '%'")
     fun getMoviesByGenre(genreId: Int): List<MyEntity>
 }
+
+ */

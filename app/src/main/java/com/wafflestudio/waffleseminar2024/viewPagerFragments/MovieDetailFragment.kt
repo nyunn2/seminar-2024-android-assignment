@@ -15,15 +15,16 @@ import com.wafflestudio.waffleseminar2024.R
 import com.wafflestudio.waffleseminar2024.adapter.GenreChipAdapter
 import com.wafflestudio.waffleseminar2024.databinding.FragmentMovieDetailBinding
 import com.wafflestudio.waffleseminar2024.viewmodel.MovieViewModel
-import com.wafflestudio.waffleseminar2024.viewmodel.MovieViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
 
+@AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
     private lateinit var navController: NavController
 
-    private val viewModel: MovieViewModel by viewModels { MovieViewModelFactory(requireContext()) }
+    private val viewModel: MovieViewModel by viewModels()
     private val movieId: Int by lazy {
         arguments?.getInt("movieId") ?: 0
     }
@@ -43,7 +44,7 @@ class MovieDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         viewModel.fetchMovieDetails(movieId)
-        viewModel.movie.observe(viewLifecycleOwner) { movie ->
+        viewModel.movieDetail.observe(viewLifecycleOwner) { movie ->
             movie?.let {
                 it.genres?.let { it1 -> setupRecyclerView(it1) }
                 binding.movieTitle.text = it.title

@@ -9,6 +9,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+/*
 @Database(entities = [MyEntity::class], version = 1)
 @TypeConverters(MyConverters::class)
 abstract class MyDatabase : RoomDatabase() {
@@ -34,3 +35,5 @@ abstract class MyDatabase : RoomDatabase() {
         }
     }
 }
+
+ */

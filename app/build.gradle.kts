@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,17 +8,29 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 
     kotlin("plugin.serialization") version "2.0.21"
-    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+    //id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("kotlin-kapt")
     alias(libs.plugins.hilt)
 }
 
+fun getLocalProperty(key: String): String {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(FileInputStream(localPropertiesFile))
+    }
+    return properties.getProperty(key) ?: ""
+}
+
+
 android {
     namespace = "com.wafflestudio.waffleseminar2024"
     compileSdk = 34
-
-    buildFeatures {
-        viewBinding = true
+    android {
+        buildFeatures {
+            viewBinding = true
+            buildConfig = true
+        }
     }
     defaultConfig {
         applicationId = "com.wafflestudio.waffleseminar2024"
@@ -24,7 +39,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
+        buildConfigField("String", "TMDB_API_KEY", "\"${getLocalProperty("TMDB_API_KEY")}\"")
     }
 
     buildTypes {
@@ -61,7 +76,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.adapters)
     implementation(libs.androidx.recyclerview)
-    ksp(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,4 +85,5 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.javapoet)
 }

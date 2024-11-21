@@ -253,6 +253,16 @@
         app:layout_constraintTop_toBottomOf="@id/Revenuetitle"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_star_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

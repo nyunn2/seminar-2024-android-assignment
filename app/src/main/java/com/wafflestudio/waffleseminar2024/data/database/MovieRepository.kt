@@ -3,6 +3,7 @@ package com.wafflestudio.waffleseminar2024.data.database
 import com.wafflestudio.waffleseminar2024.Movie
 import com.wafflestudio.waffleseminar2024.tmdb.TMDBApiService
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class MovieRepository @Inject constructor(
     private val apiService: TMDBApiService
@@ -21,3 +22,4 @@ class MovieRepository @Inject constructor(
         return response.results
     }
 }
+

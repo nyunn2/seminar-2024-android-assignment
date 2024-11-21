@@ -1,27 +1,25 @@
 package com.wafflestudio.waffleseminar2024.data.database
 
+import android.util.Log
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.wafflestudio.waffleseminar2024.Movie
-/*
+import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface MyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMyEntity(entity: MyEntity)
+    suspend fun insertMovie(movie: DbMovie)
+
+    @Delete
+    suspend fun deleteMovie(movie: DbMovie)
 
     @Query("SELECT * FROM example_table2")
-    fun getAllMyEntities(): List<MyEntity>
+    fun getAllMovies(): Flow<List<DbMovie>>
 
-    @Query("SELECT * FROM example_table2 WHERE id = :id")
-    fun getMyEntityById(id:Int): MyEntity
-
-    @Query("SELECT * FROM example_table2 WHERE title LIKE '%' || :titleWord || '%'")
-    fun getMoviesByTitle(titleWord: String): List<MyEntity>
-
-    @Query("SELECT * FROM example_table2 WHERE genres LIKE '%' || :genreId || '%'")
-    fun getMoviesByGenre(genreId: Int): List<MyEntity>
+    @Query("SELECT * FROM example_table2 WHERE id = :movieId")
+    suspend fun getMovieById(movieId: Int): DbMovie?
 }
-
- */

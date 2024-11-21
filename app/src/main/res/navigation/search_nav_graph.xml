@@ -52,5 +52,7 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <deepLink
+            app:uri="app://com.wafflestudio.waffleseminar2024/movieDetail/{movieId}" />
     </fragment>
 </navigation>

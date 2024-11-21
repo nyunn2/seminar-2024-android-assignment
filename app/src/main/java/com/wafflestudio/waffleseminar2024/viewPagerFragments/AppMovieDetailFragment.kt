@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
-class MovieDetailFragment : Fragment() {
+class AppMovieDetailFragment : Fragment() {
     private lateinit var navController: NavController
 
     private val viewModel: MovieViewModel by viewModels()

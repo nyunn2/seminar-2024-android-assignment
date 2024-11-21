@@ -1,4 +1,4 @@
-package com.wafflestudio.waffleseminar2024.viewmodel
+package com.wafflestudio.waffleseminar2024.di
 
 import com.wafflestudio.waffleseminar2024.data.database.MovieRepository
 import com.wafflestudio.waffleseminar2024.tmdb.TMDBApiService
